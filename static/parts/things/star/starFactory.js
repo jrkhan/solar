@@ -1,4 +1,4 @@
-var physics = require('../../physics/physics');
+var physics = require('solar/physics');
 
 
 var StarTypes = [

@@ -1,6 +1,6 @@
-var Physics = require('../../physics/physics');
+var Physics = require('solar/physics');
 var Random = Math;
-var orbitFactory = require('../../orbit/orbit');
+var orbitFactory = require('solar/orbit');
 var V3 = THREE.Vector3;
 
 function getOffset(up) {

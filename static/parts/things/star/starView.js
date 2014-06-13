@@ -274,5 +274,5 @@ module.exports = (function(
    Math,
    THREE.ImageUtils,
    require('../../../assets'),
-   require('../../physics/physics'),
+   require('solar/physics'),
    require('../../utils/vectorUtils'));

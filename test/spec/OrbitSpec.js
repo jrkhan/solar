@@ -1,3 +1,5 @@
+var physics = require('solar/physics');
+var orbit = require('solar/orbit');
 describe("Orbit", function(){
     var planet, moon, star;
     var startingDistance = 1000;
@@ -8,9 +10,9 @@ describe("Orbit", function(){
         moon = {};
         star = {};
 
-        Solar.Physics.addPhysicsProperties(star);
-        Solar.Physics.addPhysicsProperties(planet);
-        Solar.Physics.addPhysicsProperties(moon, true);
+        physics.addPhysicsProperties(star);
+        physics.addPhysicsProperties(planet);
+        physics.addPhysicsProperties(moon, true);
 
         planet.position.z = -planetStarDistance;
         moon.position.set(planet.position.x + startingDistance, planet.position.y, planet.position.z);
@@ -19,9 +21,9 @@ describe("Orbit", function(){
         planet.setMass(1000);
         moon.setMass(.1);
 
-        Solar.Orbit.makeOrbital(star);
-        Solar.Orbit.makeOrbital(planet);
-        Solar.Orbit.makeOrbital(moon);
+        orbit.makeOrbital(star);
+        orbit.makeOrbital(planet);
+        orbit.makeOrbital(moon);
 
         moon.orbit(planet);
         planet.orbit(star);

@@ -1,9 +1,11 @@
+var physics = require('solar/physics');
+
 describe("Physics", function(){
     var moon;
 
     beforeEach(function(){
         moon = {};
-        Solar.Physics.addPhysicsProperties(moon, false);
+        physics.addPhysicsProperties(moon, false);
 
         moon.position = new THREE.Vector3(0,0,0);
         moon.mass = 1;
