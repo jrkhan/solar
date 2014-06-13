@@ -1,5 +1,5 @@
 
-Solar.BlurShader = (function(assets){
+module.exports = (function(assets){
 
     var vertex;
     var fragment;
@@ -36,4 +36,4 @@ Solar.BlurShader = (function(assets){
     return {
         instance: instance
     }
-})(Solar.Assets);
+})(require('../../../assets'));

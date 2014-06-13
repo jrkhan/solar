@@ -1,4 +1,4 @@
-Solar.StarViewFactory = (function(
+module.exports = (function(
     Geo,
     ParticleMaterial,
     Vertex,
@@ -6,7 +6,9 @@ Solar.StarViewFactory = (function(
     ParticleSystem,
     rng,
     utils,
-    assets){
+    assets,
+    physics,
+    vectorUtils){
 
     var sunFrag, sunVert;
     assets.getShader('parts/shaders/noise.fs', function(data){
@@ -61,7 +63,7 @@ Solar.StarViewFactory = (function(
 
         var starView = new THREE.Mesh( geometry, material );
 
-        Solar.Physics.addPhysicsProperties(starView);
+        physics.addPhysicsProperties(starView);
         starView.invMass = star.invMass;
 
         starView.light = new THREE.PointLight(star.color);
@@ -112,7 +114,7 @@ Solar.StarViewFactory = (function(
             for ( var i = 0; i < vertices.length; i++ ) {
                 var p = vertices[i];
                 if (p.isActive) {
-                    Solar.Physics.applyGravity(star, p.physics, true);
+                    physics.applyGravity(star, p.physics, true);
                     p.physics.physicsUpdate(dt);
                     p.copy(p.physics.position);
 
@@ -134,7 +136,7 @@ Solar.StarViewFactory = (function(
                 pp.previousPosition().copy(emitter.position);
 
                 var accel = new Vector3().copy(particle.physics.position).sub(star.position).setLength(emitter.baseAcceleration).add(
-                    Solar.Utils.VectorUtils.randomVector(emitter.baseAcceleration/4)
+                    vectorUtils.randomVector(emitter.baseAcceleration/4)
                 );
                 particle.physics.acceleration().add(accel);
                 particle.isActive = true;
@@ -240,7 +242,7 @@ Solar.StarViewFactory = (function(
         for (var i = 0; i < particleCount; i++) {
             var v = new Vector3();
             var phy = v.physics = {};
-            Solar.Physics.addPhysicsProperties(v.physics, false); //don't keep history
+            physics.addPhysicsProperties(v.physics, false); //don't keep history
 
             var pPos = phy.position;
             pPos.copy(v);
@@ -271,4 +273,6 @@ Solar.StarViewFactory = (function(
    THREE.ParticleSystem,
    Math,
    THREE.ImageUtils,
-   Solar.Assets);
+   require('../../../assets'),
+   require('../../physics/physics'),
+   require('../../utils/vectorUtils'));

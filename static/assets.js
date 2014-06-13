@@ -1,4 +1,4 @@
-Solar.Assets = (function() {
+module.exports = (function() {
 
     var shadersInProgress = 0;
     var readyHandlers = [];

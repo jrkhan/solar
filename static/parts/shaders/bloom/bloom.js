@@ -1,4 +1,4 @@
-Solar.BloomShader = (function(assets){
+module.exports = (function(assets){
     var vertex;
     var fragment;
 
@@ -39,4 +39,4 @@ Solar.BloomShader = (function(assets){
         instance: instance
     }
 
-})(Solar.Assets);
+})(require('../../../assets'));

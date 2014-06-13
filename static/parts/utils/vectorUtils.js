@@ -1,5 +1,4 @@
-if ( Solar.Utils == undefined ) { Solar.Utils = {}; }
-Solar.Utils.VectorUtils = (function(Vector3, rng){
+module.exports = (function(Vector3, rng){
     function randomComp() {
         return rng.random() - rng.random();
     }

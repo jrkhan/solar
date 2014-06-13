@@ -1,7 +1,7 @@
-/**
- * Created by Jamil on 4/21/14.
- */
-Solar.StarTypes = [
+var physics = require('../../physics/physics');
+
+
+var StarTypes = [
     {
         starType: 'o',
         color: 0x0000FF,
@@ -68,7 +68,7 @@ Solar.StarTypes = [
 
 ];
 
-Solar.StarFactory = (function(types){
+var StarFactory = (function(types){
 
     var massOfTheSun = 50000;//2 * Math.pow(10, 30); //kg
     var radiusOfTheSun = 20;//695500; //km
@@ -114,7 +114,7 @@ Solar.StarFactory = (function(types){
 
         var star = {};
 
-        Solar.Physics.addPhysicsProperties(star);
+        physics.addPhysicsProperties(star);
 
         star.setMass(vary(proto.avgMass * massOfTheSun, multiplier));
         star.color = proto.color;
@@ -129,5 +129,9 @@ Solar.StarFactory = (function(types){
     return {
         getStar: getStar
     }
-})(Solar.StarTypes);
+})(StarTypes);
 
+module.exports = {
+    starTypes: StarTypes,
+    getStar: StarFactory.getStar
+};
