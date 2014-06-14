@@ -14,6 +14,7 @@ var actionSelection     = require('./parts/ui/components/actionSelection');
 var assets              = require('./assets');
 var bloomShaderFactory  = require('./parts/shaders/bloom/bloom');
 var blurShaderFactory   = require('./parts/shaders/blur/blur');
+var defaultSceneFactory = require('solar/scene');
 
 var camera, scene, renderer, composer;
 var depthMaterial;
@@ -21,8 +22,7 @@ var star;
 var width, height;
 var starEffect, bloomEffect;
 var physicsBackedViews = [];
-var initNear = 10;
-var initFar = 10000;
+var defaultScene;
 
 function log(message){
     $('#console').text(message);
@@ -30,21 +30,13 @@ function log(message){
 
 function init(domContainer) {
     log("init");
-    renderer = new THREE.WebGLRenderer();
-    renderer.antialias = true;
-    renderer.shadowMapEnabled = true;
-    renderer.shadowMapSoft = true;
+    defaultScene = defaultSceneFactory(domContainer);
+    renderer = defaultScene.renderer;
+    camera = defaultScene.camera;
+    scene = defaultScene.scene;
+
     width = domContainer.width();
     height = domContainer.height();
-
-    renderer.setSize( width, height );
-    domContainer.append( renderer.domElement );
-
-    camera = new THREE.PerspectiveCamera( 65, window.innerWidth / window.innerHeight, initNear, initFar );
-    camera.position.y = 250;
-    camera.position.z = 400;
-
-    scene = new THREE.Scene();
 
     loadSkybox();
 
@@ -63,11 +55,11 @@ function init(domContainer) {
 
     setupPostprocessingEffects(render);
 
-    onWindowResize(null);
-
     setupActions(domContainer);
 
     camera.trackedObject = star;
+
+    defaultScene.animate(undefined, render);
 }
 
 function setupPostprocessingEffects(){
@@ -172,23 +164,9 @@ function addPlanet(position, thingToOrbit) {
     return planet;
 }
 
-function onWindowResize( event ) {
+function render(timestamp) {
 
-renderer.setSize( width, height );
-
-camera.aspect = width / height;
-camera.updateProjectionMatrix();
-
-}
-
-function animate() {
-requestAnimationFrame( animate );
-render();
-}
-
-function render() {
-
-  var dt = 1;//clock.getDelta();
+  var dt = 1;
 
   star.recursivePhysicsUpdate(dt);
   for ( var i = 0; i < physicsBackedViews.length; i++ ) {
@@ -225,6 +203,4 @@ function render() {
 
 assets.addReadyHandler(function(){
     init($('#game'));
-    animate();
-
 });
